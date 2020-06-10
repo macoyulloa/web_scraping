@@ -15,7 +15,10 @@ XPATH_BODY = '//div[@class="articleWrapper  "]/p/text()'
 
 
 def parsed_notices(link, today):
-    """
+    """ Dowload the notices of the website
+    Arg:
+        - link: to get dowload the notice
+        - today: date to save the notice in the dir
     """
     try:
         response = requests.get(link)
@@ -50,7 +53,9 @@ def parsed_notices(link, today):
 
 
 def parse_home():
-    """
+    """ scraping the home page to get all the links of the notices
+
+    Result: directory with the notices day by day
     """
     try:
         response = requests.get(HOME_URL)
