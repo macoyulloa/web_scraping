@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+###############################################
+# SETTING UP THE ENVIRONMENT FOR WEB SCRAPING #
+##############################################
+
+# update and installs
+sudo apt-get update
+sudo apt-get install python3-tk
+
+# installing pip
+wget https://bootstrap.pypa.io/get-pip.py
+sudo python3 get-pip.py
+rm get-pip.py
+
+# was succesfully dowload
+pip -V
+
+# update pip to lastest version
+sudo -H pip3 install --upgrade pip
+
+# Python modules to install
+pip3 install requests lxml autopep8
