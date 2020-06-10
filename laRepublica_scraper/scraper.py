@@ -1,15 +1,22 @@
 #!/usr/bin/env python3
 """laRepublica web site scraping"""
+
 import requests
 import lxml.html as html
 import os
 import datetime
+
+
 HOME_URL = 'https://www.larepublica.co'
 XPATH_LINK_TO_ARTICLE = '//h2[@class="headline"]/a/@href'
 XPATH_TITLE = '//h1[@class="headline"]/a/text()'
 XPATH_SUMMARY = '//div[@class="lead"]/p/text()'
 XPATH_BODY = '//div[@class="articleWrapper  "]/p/text()'
+
+
 def parsed_notices(link, today):
+    """
+    """
     try:
         response = requests.get(link)
         if response.status_code == 200:
@@ -22,6 +29,7 @@ def parsed_notices(link, today):
                 body = parsed.xpath(XPATH_BODY)
             except IndexError:
                 return
+
             filename = './' + today + '/' + title + '.txt'
             print(filename)
             with open(filename, 'w', encoding='utf-8') as f:
@@ -33,11 +41,17 @@ def parsed_notices(link, today):
                 for p in body:
                     f.write(p)
                     f.write('\n')
-                else:
+
+        else:
             raise ValueError('Error: {}'.format(response.status_code))
+
     except ValueError as err:
         print(err)
+
+
 def parse_home():
+    """
+    """
     try:
         response = requests.get(HOME_URL)
         if response.status_code == 200:
@@ -47,16 +61,26 @@ def parse_home():
             links_to_notices = parsed.xpath(XPATH_LINK_TO_ARTICLE)
             # print(links_to_notices)
             today = datetime.date.today().strftime('%d-%m-%Y')
+
             if not os.path.isdir(today):
                 os.mkdir(today)
+
             for link in links_to_notices:
                 parsed_notices(link, today)
-            else:
+
+        else:
             raise ValueError('Error: {}'.format(response.status_code))
+
     except ValueError as err:
         print(err)
+
+
 def run():
+    """
+    """
     parse_home()
+
+
 if __name__ == "__main__":
     """ Web Scraping: History of the notices
         Getting the notices of the web site www.larepublica.co
